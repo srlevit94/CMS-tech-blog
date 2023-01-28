@@ -1,9 +1,9 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
-class Project extends Model {}
-
-Project.init(
+class Post extends Model {}
+//post title, contents, post creator’s username, and date created for that post and have the option to leave a comment
+Post.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -11,21 +11,18 @@ Project.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    name: {
+    title: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    description: {
+    content: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
     date_created: {
       type: DataTypes.DATE,
       allowNull: false,
       defaultValue: DataTypes.NOW,
-    },
-    needed_funding: {
-      type: DataTypes.FLOAT,
-      allowNull: false,
     },
     user_id: {
       type: DataTypes.INTEGER,
@@ -44,4 +41,4 @@ Project.init(
   }
 );
 
-module.exports = Project;
+module.exports = Post;
