@@ -1,10 +1,11 @@
-{{#each post as |posts| }}
+<h2> Test for homepage handlebars</h2>
+{{#each posts as |post| }}
 <div class="row align-center mb-5">
   <div class="col-md-6">
-    <h2> {{post.title}}</h2>
+    <h2> <a href="/post/{{post.id}}">Title:{{post.title}}</a></h2>
   </div>
   <div class="col-md-6">
-    <h3>{{post.content}}</h3>
+    <p>Content:{{post.content}}</p>
   </div>
 </div>
 {{/each}}

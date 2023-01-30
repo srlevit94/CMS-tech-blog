@@ -7,3 +7,4 @@ router.use('/users', userRoutes);
 router.use('/posts', postRoutes);
 
 module.exports = router;
+

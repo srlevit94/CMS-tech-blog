@@ -1,0 +1,10 @@
+<section class="card">
+  <!-- The contents of this card links to the posts page using the post ID -->
+    <!-- The card contains the post title as the card header -->
+    <h4><a href="/post/{{id}}">{{title}}</a></h4>
+    <!-- The card contains the first post of the page -->
+    <p>{{content}}</p>
+    {{#each comments as |comment|}}
+    <p>{{comment_content}}</p>
+    {{/each}}
+</section>
