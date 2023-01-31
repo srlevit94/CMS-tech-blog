@@ -1,79 +1,8 @@
 const router = require('express').Router();
-const { Post, User, Comment } = require('../../models');
+const { Post } = require('../../models');
 const withAuth = require("../../utils/auth");
 
 // see 13-06 for examples of creating/getting objects
-// GET all posts 
-router.get('/', async (req, res) => {
-  try {
-    const postData = await Post.findAll({
-      where: {
-        id: req.params.id,
-      },
-      attributes: [
-        "id",
-        "content",
-        "title",
-        "date_created"
-      ],
-      include: [
-        {
-        model: User,
-        attributes:["username"]
-        },
-        {
-        model: Comment,
-        attributes: [
-          'id',
-          'comment_content',
-          'post_id',
-          'user_id',
-          'date_created'],
-        },
-      ]
-    });
-    res.status(200).json(postData);
-  } catch (err) {
-    res.status(400).json(err);
-  }
-});
-
-// GET a single post
-router.get('/:id', async (req, res) => {
-  try {
-    const postData = await Post.findByPk(req.params.id, {
-      where: {
-        id: req.params.id,
-      },
-      attributes: [
-        "id",
-        "content",
-        "title",
-        "date_created"
-      ],
-      include: [
-        {
-        model: User,
-        attributes:["username"]
-        },
-        {
-        model: Comment,
-        attributes: [
-          'id',
-          'comment_content',
-          'post_id',
-          'user_id',
-          'date_created'],
-        },
-      ]
-    });
-    res.status(200).json(postData);
-
-    } catch (err) {
-      res.status(400).json(err);
-    }
-  });
-
 // CREATE a post
 router.post('/', withAuth, async (req, res) => {
   try {
@@ -89,7 +18,7 @@ router.post('/', withAuth, async (req, res) => {
 });
 
 // DELETE a post
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', withAuth, async (req, res) => {
   try {
     const postData = await Post.destroy({
       where: {
@@ -106,6 +35,20 @@ router.delete('/:id', async (req, res) => {
     res.status(200).json(postData);
   } catch (err) {
     res.status(500).json(err);
+  }
+});
+
+// Update a post
+router.put('/:id', withAuth,async (req, res) => {
+  try {
+      await Post.update(req.body, {
+          where: {
+              id: req.params.id
+          },
+      });
+      res.status(200).json("Post Updated")
+  } catch (err) {
+      res.status(400).json(err)
   }
 });
 
