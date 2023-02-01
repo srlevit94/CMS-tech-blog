@@ -7,36 +7,10 @@ const sequelize = require('../config/connection');
 // GET all Posts for homepage
 router.get('/', async (req, res) => {
   try {
-    const postData = await Post.findAll({
-      attributes: [
-        'id',
-        'title',
-        'content',
-        'date_created'
-      ],
-      include: [
-        {
-          model: User,
-          attributes: ["username"],
-        },
-        {
-          model: Comment,
-          attributes: [
-            "id",
-            "comment_content",
-            "post_id",
-            "user_id",
-            'date_created'
-          ],
-          include: {
-            model: User,
-            attributes: ["username"],
-          },
-        },
-      ],
-    });
+    const postData = await Post.findAll({});
 
     const posts = postData.map((post) => post.get({ plain: true }));
+    
     res.render('homepage', {
       posts,
       logged_in: req.session.logged_in,
@@ -51,28 +25,7 @@ router.get('/', async (req, res) => {
 // GET one post
 router.get('/post/:id', async (req, res) => {
   try {
-    const postData = await Post.findOne(req.params.id, {
-      attributes: [
-        'id',
-        'title',
-        'date-created',
-        'content'
-      ],
-      include: [
-        {
-          model: Comment,
-          attributes: ['id', 'comment_content', 'post_id', 'user_id', 'date-created'],
-          include: {
-            model: User,
-            attributes: ['username']
-          }
-        },
-        {
-          model: User,
-          attributes: ['username'],
-        },
-      ],
-    });
+    const postData = await Post.findOne({});
 
     const post = postData.get({ plain: true });
     console.log(post);
